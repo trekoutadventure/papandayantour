@@ -513,7 +513,7 @@
                         </div>
 
                         <!-- Calendar Days Matrix -->
-                        <div id="calendar-days-grid" class="class="grid grid-cols-7 gap-1.5 sm:gap-3">
+                        <div id="calendar-days-grid" class="grid grid-cols-7 gap-2 text-center text-sm">
                             <!-- Populated dynamically via JS -->
                         </div>
                     </div>
@@ -1177,19 +1177,19 @@
             if (kamarBooked >= 2) {
             statusParts.push('• Kamar Penuh');
             } else if (kamarBooked === 1) {
-            statusParts.push('<span class="text-amber-800 font-semibold">• Kamar 1/2</span>');
+            statusParts.push('• Kamar 1/2');
             }
 
             // Status full house
             if (fullHouseBooked >= 1) {
-            statusParts.push('<span class="text-rose-700 font-semibold">• Full House</span>');
+            statusParts.push('• Full House');
             }
 
             // Tentukan tampilan akhir
             if (statusParts.length === 0) {
             // Semua tersedia
             cellBg = 'bg-emerald-50 border-emerald-200 text-emerald-900 hover:bg-emerald-100';
-            statusText = '<span class="text-emerald-700 font-semibold">Tersedia</span>';
+            statusText = 'Tersedia';
             isClickable = true;
 
             } else {
@@ -1209,21 +1209,12 @@
           }
 
           const cell = document.createElement('div');
-          cell.className = `
-              rounded-2xl border transition-all flex flex-col justify-start
-              p-1.5 sm:p-3
-              min-h-[74px] sm:min-h-[92px]
-              ${cellBg}
-              ${isClickable ? 'cursor-pointer hover:scale-[1.02]' : 'cursor-not-allowed'}
-            `;
+          cell.className = `p-2 sm:p-3 rounded-xl border text-left transition-all flex flex-col justify-between h-16 sm:h-20 ${cellBg} ${isClickable ? 'cursor-pointer' : 'cursor-not-allowed'}`;
           
           cell.innerHTML = `
-              <div class="text-lg sm:text-xl font-bold leading-none mb-2">${day}</div>
-            
-              <div class="text-[9px] sm:text-[11px] font-medium leading-tight whitespace-normal break-words text-left w-full">
-                ${statusText}
-              </div>
-            `;
+            <span class="font-bold text-sm block">${day}</span>
+            <span class="text-[9px] sm:text-[10px] font-semibold tracking-tight block truncate">${statusText}</span>
+          `;
 
           if (isClickable) {
             cell.onclick = () => {
