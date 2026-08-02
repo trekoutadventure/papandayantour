@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PapandayanTour - Homestay & Tour Guide Gunung Papandayan</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="papandayantour.png">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              papandayan: {
+                primary: '#61B342',
+                dark: '#4B982F',
+                light: '#A8D98A',
+                bg: '#F5F7F2',
+                text: '#234020',
+                textLight: '#5D6D5A',
+                surface: '#FFFFFF',
+              }
+            },
+            fontFamily: {
+              sans: ['Plus Jakarta Sans', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Flatpickr CSS & JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_green.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <style>
+      :root {
+        --primary: #61B342;
+        --primary-dark: #4B982F;
+        --primary-light: #A8D98A;
+        --white: #FFFFFF;
+        --bg: #F5F7F2;
+        --text: #234020;
+        --text-light: #5D6D5A;
+      }
+
+      body {
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+
+      /* Custom Card Style */
+      .card-nature {
+        background: #FFFFFF;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(75, 152, 47, 0.08);
+        border: 1px solid rgba(97, 179, 66, 0.15);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .card-nature:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 15px 35px rgba(75, 152, 47, 0.15);
+        border-color: rgba(97, 179, 66, 0.35);
+      }
+
+      /* Main Button Gradient */
+      .btn-primary {
+        background: linear-gradient(135deg, #61B342, #4B982F);
+        color: white;
+        border-radius: 14px;
+        padding: 12px 24px;
+        font-weight: 600;
+        transition: all 0.25s ease;
+        box-shadow: 0 4px 15px rgba(97, 179, 66, 0.25);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(75, 152, 47, 0.35);
+        background: linear-gradient(135deg, #6bc44a, #438a29);
+      }
+
+      .btn-secondary {
+        background: #FFFFFF;
+        color: var(--text);
+        border: 2px solid rgba(97, 179, 66, 0.3);
+        border-radius: 14px;
+        padding: 12px 24px;
+        font-weight: 600;
+        transition: all 0.25s ease;
+      }
+
+      .btn-secondary:hover {
+        border-color: var(--primary);
+        background: #F0F7EC;
+        transform: translateY(-2px);
+      }
+
+      /* Glass Overlay */
+      .glass-card {
+        background: rgba(255, 255, 255, 0.88);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+      }
+
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #F5F7F2;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #A8D98A;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #61B342;
+      }
+
+      /* Calendar Custom Day Highlights */
+      .flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange {
+        background: #61B342 !important;
+        border-color: #61B342 !important;
+      }
+      .flatpickr-day.inRange {
+        box-shadow: -5px 0 0 #A8D98A, 5px 0 0 #A8D98A !important;
+        background: #e4f3da !important;
+      }
+
+      .booked-date-tag {
+        background-color: #fee2e2;
+        color: #991b1b;
+        border: 1px solid #f87171;
+      }
+      
+      .available-date-tag {
+        background-color: #dcfce7;
+        color: #166534;
+        border: 1px solid #86efac;
+      }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- HEADER NAVBAR -->
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4 px-4 sm:px-8 bg-transparent">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-papandayan-primary shadow-md border border-emerald-100 group-hover:scale-105 transition-transform">
+                    <img src="papandayantour.png" alt="">
+                </div>
+                <div>
+                    <span class="text-xl font-extrabold tracking-tight text-papandayan-text block leading-none">Papandayan<span class="text-papandayan-primary">Tour</span></span>
+                    <span class="text-[10px] font-medium text-papandayan-textLight uppercase tracking-widest block mt-0.5">Homestay & Tour Guide</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 font-medium text-papandayan-text">
+                <a href="#beranda" class="hover:text-papandayan-primary transition-colors">Beranda</a>
+                <a href="#homestay" class="hover:text-papandayan-primary transition-colors">Homestay</a>
+                <a href="#tour-guide" class="hover:text-papandayan-primary transition-colors">Tour Guide</a>
+                <a href="#kalender" class="hover:text-papandayan-primary transition-colors">Cek Kalender</a>
+                <a href="#kontak" class="hover:text-papandayan-primary transition-colors">Kontak</a>
+            </nav>
+
+            <!-- Actions -->
+            <div class="hidden sm:flex items-center gap-3">
+                <button onclick="toggleAdminModal()" class="text-xs text-papandayan-textLight hover:text-papandayan-dark px-3 py-2 rounded-lg border border-transparent hover:border-papandayan-primary/30 transition-all">
+                    <i class="fa-solid fa-user-shield mr-1"></i> Admin Portal
+                </button>
+                <a href="#booking" class="btn-primary flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <span>Booking Sekarang</span>
+                </a>
+            </div>
+
+            <!-- Mobile Hamburger Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-papandayan-text p-2 rounded-lg focus:outline-none" aria-label="Menu">
+                <i class="fa-solid fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden mt-3 p-5 rounded-2xl glass-card shadow-xl border border-papandayan-primary/20 space-y-4">
+            <a href="#beranda" class="block font-medium text-papandayan-text hover:text-papandayan-primary py-1">Beranda</a>
+            <a href="#homestay" class="block font-medium text-papandayan-text hover:text-papandayan-primary py-1">Homestay</a>
+            <a href="#tour-guide" class="block font-medium text-papandayan-text hover:text-papandayan-primary py-1">Tour Guide</a>
+            <a href="#kalender" class="block font-medium text-papandayan-text hover:text-papandayan-primary py-1">Kalender Ketersediaan</a>
+            <a href="#kontak" class="block font-medium text-papandayan-text hover:text-papandayan-primary py-1">Kontak</a>
+            <div class="pt-3 border-t border-gray-200 flex flex-col gap-2">
+                <a href="#booking" class="btn-primary text-center w-full block py-3">
+                    <i class="fa-solid fa-calendar-check mr-2"></i> Booking Sekarang
+                </a>
+                <button onclick="toggleAdminModal()" class="text-xs text-center text-papandayan-textLight py-2">
+                    <i class="fa-solid fa-user-shield mr-1"></i> Login Admin
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="beranda" class="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
+        <!-- Mountain SVG / Background Pattern Overlay -->
+        <div class="absolute inset-0 z-0 bg-gradient-to-b from-[#E2F0D9]/70 via-[#F5F7F2] to-[#F5F7F2]">
+            <!-- Decorative Mountain Vectors -->
+            <div class="absolute bottom-0 inset-x-0 opacity-15 flex justify-center pointer-events-none">
+                <svg class="w-full h-48 md:h-72 text-papandayan-dark" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M0,0 C150,90 350,-40 500,60 C650,160 900,10 1200,80 L1200,120 L0,120 Z" fill="currentColor"></path>
+                </svg>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Hero Left Text -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-papandayan-primary/10 border border-papandayan-primary/30 text-papandayan-dark font-semibold text-xs uppercase tracking-wider">
+                        <i class="fa-solid fa-tree text-papandayan-primary"></i> Wisata Alam & Homestay Garut
+                    </div>
+                    
+                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-papandayan-text leading-tight">
+                        Menginap Nyaman di Kaki <span class="text-transparent bg-clip-text bg-gradient-to-r from-papandayan-primary to-papandayan-dark">Gunung Papandayan</span>
+                    </h1>
+                    
+                    <p class="text-base sm:text-lg text-papandayan-textLight max-w-2xl mx-auto lg:mx-0 font-normal">
+                        Nikmati homestay yang nyaman, suasana alam yang sejuk, dan layanan tour guide terpercaya untuk pengalaman terbaik menjelajahi keindahan Gunung Papandayan.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="#booking" class="btn-primary w-full sm:w-auto text-center px-8 py-4 text-base flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-magnifying-glass"></i> Cek Ketersediaan
+                        </a>
+                        <a href="https://wa.me/6287732788405?text=Halo%20PapandayanTour,%20saya%20ingin%20bertanya%20mengenai%20homestay%20dan%20tour%20guide." target="_blank" class="btn-secondary w-full sm:w-auto text-center px-8 py-4 text-base flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-emerald-600 text-lg"></i> Hubungi WhatsApp
+                        </a>
+                    </div>
+
+                    <!-- Trust Badges -->
+                    <div class="pt-6 grid grid-cols-3 gap-4 border-t border-papandayan-primary/15 max-w-lg mx-auto lg:mx-0">
+                        <div class="text-center lg:text-left">
+                            <span class="block font-bold text-xl text-papandayan-text">100%</span>
+                            <span class="text-xs text-papandayan-textLight">Guide Lokal Garut</span>
+                        </div>
+                        <div class="text-center lg:text-left">
+                            <span class="block font-bold text-xl text-papandayan-text">24 Jam</span>
+                            <span class="text-xs text-papandayan-textLight">Air Panas & WiFi</span>
+                        </div>
+                        <div class="text-center lg:text-left">
+                            <span class="block font-bold text-xl text-papandayan-text">Real-Time</span>
+                            <span class="text-xs text-papandayan-textLight">Sistem Booking</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Right Card Highlight -->
+                <div class="lg:col-span-5">
+                    <div class="relative">
+                        <div class="card-nature p-6 sm:p-8 relative overflow-hidden bg-gradient-to-br from-white to-[#F0F7EC]">
+                            <div class="absolute -right-10 -bottom-10 text-papandayan-primary/10 text-9xl pointer-events-none">
+                                <i class="fa-solid fa-mountain-sun"></i>
+                            </div>
+
+                            <div class="flex items-center justify-between mb-6">
+                                <span class="text-xs font-bold uppercase tracking-wider text-papandayan-primary bg-papandayan-primary/10 px-3 py-1.5 rounded-lg">Pilihan Populer</span>
+                                <span class="text-xs font-semibold text-papandayan-textLight"><i class="fa-solid fa-star text-amber-400 mr-1"></i>4.9 (120+ Ulasan)</span>
+                            </div>
+
+                            <h3 class="text-xl font-bold text-papandayan-text mb-2">Papandayan Tour & Homestay</h3>
+                            <p class="text-xs text-papandayan-textLight mb-6">Berlokasi di sekitar kawasan Gunung Papandayan, PapandayanTour menghadirkan suasana pegunungan yang sejuk, tenang, dan nyaman untuk beristirahat setelah menjelajahi destinasi wisata Garut.</p>
+
+                            <div class="space-y-3 mb-6 text-sm">
+                                <div class="flex items-center gap-3 text-papandayan-text">
+                                    <div class="w-8 h-8 rounded-full bg-papandayan-primary/15 flex items-center justify-center text-papandayan-dark">
+                                        <i class="fa-solid fa-bed text-xs"></i>
+                                    </div>
+                                    <span>2 Pilihan Tipe Homestay (Kamar / Full House)</span>
+                                </div>
+                                <div class="flex items-center gap-3 text-papandayan-text">
+                                    <div class="w-8 h-8 rounded-full bg-papandayan-primary/15 flex items-center justify-center text-papandayan-dark">
+                                        <i class="fa-solid fa-fire text-xs"></i>
+                                    </div>
+                                    <span>Fasilitas Lengkap Dapur & Toilet</span>
+                                </div>
+                                <div class="flex items-center gap-3 text-papandayan-text">
+                                    <div class="w-8 h-8 rounded-full bg-papandayan-primary/15 flex items-center justify-center text-papandayan-dark">
+                                        <i class="fa-solid fa-route text-xs"></i>
+                                    </div>
+                                    <span>Paket Tour Guide Sunrise Trip Hutan Mati</span>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-white/80 border border-papandayan-primary/20 flex items-center justify-between">
+                                <div>
+                                    <span class="block text-xs text-papandayan-textLight">Mulai dari</span>
+                                    <span class="text-lg font-bold text-papandayan-dark">Rp 200.000 <span class="text-xs font-normal text-papandayan-textLight">/ malam</span></span>
+                                </div>
+                                <a href="#booking" class="px-4 py-2 rounded-lg bg-papandayan-primary text-white text-xs font-semibold hover:bg-papandayan-dark transition-colors">
+                                    Pesan Sekarang
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KARTU LAYANAN SECTION -->
+    <section id="homestay" class="py-16 bg-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-xs font-bold uppercase tracking-widest text-papandayan-primary block mb-1">Pilihan Akomodasi & Tour</span>
+                <h2 class="text-3xl font-extrabold text-papandayan-text">Layanan PapandayanTour</h2>
+                <p class="text-papandayan-textLight text-sm mt-2">Pilih tipe penginapan atau pemandu sesuai dengan jumlah rombongan dan kebutuhan trip Anda.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1: Homestay Kamar -->
+                <div class="card-nature p-6 flex flex-col justify-between relative overflow-hidden group">
+                    <div class="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-papandayan-primary to-papandayan-light"></div>
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-papandayan-primary/15 text-papandayan-dark flex items-center justify-center text-xl mb-4 group-hover:bg-papandayan-primary group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-bed"></i>
+                        </div>
+                        <span class="inline-block text-[11px] font-bold text-emerald-800 bg-emerald-100 px-2.5 py-1 rounded-md mb-2">Max 2 Kamar / Malam</span>
+                        <h3 class="text-xl font-bold text-papandayan-text mb-1">Homestay Kamar</h3>
+                        <p class="text-xs text-papandayan-textLight mb-4">Cocok untuk backpacker, pasangan, atau rombongan kecil yang butuh privasi per kamar.</p>
+                        
+                        <div class="text-2xl font-extrabold text-papandayan-dark mb-6">
+                            Rp 200.000 <span class="text-xs font-normal text-papandayan-textLight">/ malam</span>
+                        </div>
+
+                        <ul class="space-y-2.5 text-sm mb-6 text-papandayan-text border-t border-gray-100 pt-4">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Kasur Empuk & Nyaman</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> 2 Orang per Kamar </li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Tersedia WiFi</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Kamar Mandi Bersama</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Teh & Kopi Gratis</li>
+                        </ul>
+                    </div>
+
+                    <button onclick="selectServiceInForm('kamar')" class="w-full btn-secondary text-center py-2.5 text-sm flex items-center justify-center gap-2">
+                        Pilih Kamar Ini <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Card 2: Full House -->
+                <div class="card-nature p-6 flex flex-col justify-between relative overflow-hidden group border-papandayan-primary">
+                    <div class="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-papandayan-dark to-papandayan-primary"></div>
+                    <div class="absolute top-3 right-3">
+                        <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-1 bg-papandayan-primary text-white rounded">Privat & Populer</span>
+                    </div>
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-papandayan-primary/15 text-papandayan-dark flex items-center justify-center text-xl mb-4 group-hover:bg-papandayan-primary group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-house flex-shrink-0"></i>
+                        </div>
+                        <span class="inline-block text-[11px] font-bold text-amber-800 bg-amber-100 px-2.5 py-1 rounded-md mb-2">Exclusif 1 Rumah / Malam</span>
+                        <h3 class="text-xl font-bold text-papandayan-text mb-1">Full House (Satu Rumah)</h3>
+                        <p class="text-xs text-papandayan-textLight mb-4">Sangat pas untuk keluarga besar atau komunitas hingga 8-10 orang.</p>
+                        
+                        <div class="text-2xl font-extrabold text-papandayan-dark mb-6">
+                            Rp 300.000 <span class="text-xs font-normal text-papandayan-textLight">/ malam</span>
+                        </div>
+
+                        <ul class="space-y-2.5 text-sm mb-6 text-papandayan-text border-t border-gray-100 pt-4">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> 2 Kamar Tidur Privat</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Dapur Lengkap Alat Masak</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Ruang Keluarga Luas + TV</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Kamar Mandi Bersih</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Tersedia WiFi</li>
+                        </ul>
+                    </div>
+
+                    <button onclick="selectServiceInForm('full-house')" class="w-full btn-primary text-center py-2.5 text-sm flex items-center justify-center gap-2">
+                        Pilih Full House <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Card 3: Tour Guide -->
+                <div id="tour-guide" class="card-nature p-6 flex flex-col justify-between relative overflow-hidden group">
+                    <div class="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-papandayan-light to-papandayan-primary"></div>
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-papandayan-primary/15 text-papandayan-dark flex items-center justify-center text-xl mb-4 group-hover:bg-papandayan-primary group-hover:text-white transition-colors">
+                            <i class="fa-solid fa-compass"></i>
+                        </div>
+                        <span class="inline-block text-[11px] font-bold text-sky-800 bg-sky-100 px-2.5 py-1 rounded-md mb-2">Layanan Pendampingan</span>
+                        <h3 class="text-xl font-bold text-papandayan-text mb-1">Paket Tour Guide</h3>
+                        <p class="text-xs text-papandayan-textLight mb-4">Jelajahi Kawah Papandayan, Hutan Mati, & Pondok Saladah dengan pemandu berpengalaman.</p>
+                        
+                        <div class="text-2xl font-extrabold text-papandayan-dark mb-6">
+                            Rp 300.000 <span class="text-xs font-normal text-papandayan-textLight">/ rombongan</span>
+                        </div>
+
+                        <ul class="space-y-2.5 text-sm mb-6 text-papandayan-text border-t border-gray-100 pt-4">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Guide Lokal Berpengalaman</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Navigasi Jalur Aman & Ramah</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Sunrise Trip Tebing Soni</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Spot Foto Hutan Mati Eksotis</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Bantuan Dokumentasi Trip</li>
+                        </ul>
+                    </div>
+
+                    <button onclick="selectServiceInForm('tour-guide')" class="w-full btn-secondary text-center py-2.5 text-sm flex items-center justify-center gap-2">
+                        Pesan Tour Guide <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REAL-TIME AVAILABILITY CALENDAR -->
+    <section id="kalender" class="py-16 bg-papandayan-bg border-y border-papandayan-primary/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                <span class="text-xs font-bold uppercase tracking-widest text-papandayan-primary block mb-1">Pengecekan Real-Time</span>
+                <h2 class="text-3xl font-extrabold text-papandayan-text">Kalender Ketersediaan Tanggal</h2>
+                <p class="text-papandayan-textLight text-sm mt-2">
+                    Tanggal yang sudah dikonfirmasi oleh admin akan otomatis terisi status booked secara live.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <!-- Filter & Legend -->
+                <div class="lg:col-span-4 space-y-6">
+                    <div class="card-nature p-6">
+                        <h4 class="font-bold text-papandayan-text mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-filter text-papandayan-primary"></i> Filter Tipe Layanan
+                        </h4>
+                        
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-white transition-colors">
+                                <input type="radio" name="calendar-filter" value="all" checked onchange="renderCalendarOverview()" class="text-papandayan-primary focus:ring-papandayan-primary">
+                                <div>
+                                    <span class="block font-semibold text-sm text-papandayan-text">Semua Layanan</span>
+                                    <span class="text-[11px] text-papandayan-textLight">Tampilkan status gabungan</span>
+                                </div>
+                            </label>
+
+                            <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-white transition-colors">
+                                <input type="radio" name="calendar-filter" value="kamar" onchange="renderCalendarOverview()" class="text-papandayan-primary focus:ring-papandayan-primary">
+                                <div>
+                                    <span class="block font-semibold text-sm text-papandayan-text">Homestay Kamar</span>
+                                    <span class="text-[11px] text-papandayan-textLight">Maksimal 2 kamar per tanggal</span>
+                                </div>
+                            </label>
+
+                            <label class="flex items-center gap-3 p-3 rounded-xl border border-gray-200 cursor-pointer hover:bg-white transition-colors">
+                                <input type="radio" name="calendar-filter" value="full-house" onchange="renderCalendarOverview()" class="text-papandayan-primary focus:ring-papandayan-primary">
+                                <div>
+                                    <span class="block font-semibold text-sm text-papandayan-text">Full House (1 Rumah)</span>
+                                    <span class="text-[11px] text-papandayan-textLight">Maksimal 1 unit per tanggal</span>
+                                </div>
+                            </label>
+                        </div>
+
+                        <!-- Legend -->
+                        <div class="mt-6 pt-6 border-t border-gray-100">
+                            <h5 class="text-xs font-bold uppercase tracking-wider text-papandayan-textLight mb-3">Keterangan Status</h5>
+                            <div class="space-y-2 text-xs">
+                                <div class="flex items-center gap-2.5">
+                                    <span class="w-4 h-4 rounded-full bg-emerald-100 border border-emerald-400 inline-block"></span>
+                                    <span class="text-papandayan-text font-medium">Tersedia (Bisa Dipesan)</span>
+                                </div>
+                                <div class="flex items-center gap-2.5">
+                                    <span class="w-4 h-4 rounded-full bg-amber-100 border border-amber-400 inline-block"></span>
+                                    <span class="text-papandayan-text font-medium">Terisi Sebagian (Kamar tersisa 1)</span>
+                                </div>
+                                <div class="flex items-center gap-2.5">
+                                    <span class="w-4 h-4 rounded-full bg-red-100 border border-red-400 inline-block"></span>
+                                    <span class="text-papandayan-text font-medium">Penuh (Tidak Bisa Dipesan)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Calendar Display Board -->
+                <div class="lg:col-span-8">
+                    <div class="card-nature p-6">
+                        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
+                            <div>
+                                <h3 id="current-month-title" class="text-lg font-bold text-papandayan-text">Agustus 2026</h3>
+                                <p class="text-xs text-papandayan-textLight">Klik tanggal untuk langsung mengisi formulir booking</p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button onclick="changeCalendarMonth(-1)" class="w-9 h-9 rounded-xl border border-gray-200 flex items-center justify-center hover:bg-papandayan-primary hover:text-white transition-colors">
+                                    <i class="fa-solid fa-chevron-left text-xs"></i>
+                                </button>
+                                <button onclick="changeCalendarMonth(1)" class="w-9 h-9 rounded-xl border border-gray-200 flex items-center justify-center hover:bg-papandayan-primary hover:text-white transition-colors">
+                                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Days Header -->
+                        <div class="grid grid-cols-7 gap-2 text-center text-xs font-bold text-papandayan-textLight mb-2 uppercase">
+                            <div>Min</div><div>Sen</div><div>Sel</div><div>Rab</div><div>Kam</div><div>Jum</div><div>Sab</div>
+                        </div>
+
+                        <!-- Calendar Days Matrix -->
+                        <div id="calendar-days-grid" class="grid grid-cols-7 gap-2 text-center text-sm">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BOOKING FORM SECTION -->
+    <section id="booking" class="py-16 bg-white relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-8">
+            <div class="card-nature p-8 sm:p-10 border-2 border-papandayan-primary/30 relative">
+                <div class="text-center max-w-xl mx-auto mb-8">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-papandayan-primary/10 text-papandayan-dark font-semibold text-xs mb-2">
+                        <i class="fa-solid fa-bolt text-amber-500"></i> Real-Time Synchronized
+                    </span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-papandayan-text">Formulir Booking Online</h2>
+                    <p class="text-xs sm:text-sm text-papandayan-textLight mt-1">Isi data reservasi Anda di bawah. Sistem akan mengecek ketersediaan secara otomatis.</p>
+                </div>
+
+                <form id="booking-form" class="space-y-6" onsubmit="handleBookingSubmit(event)">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <!-- Nama Lengkap -->
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-papandayan-text mb-2">
+                                Nama Lengkap <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <i class="fa-solid fa-user absolute left-3.5 top-3.5 text-papandayan-textLight text-sm"></i>
+                                <input type="text" id="form-nama" required placeholder="Contoh: Agung Setiabudi" class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-papandayan-primary focus:ring-2 focus:ring-papandayan-primary/20 text-sm outline-none transition-all">
+                            </div>
+                        </div>
+
+                        <!-- WhatsApp -->
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-papandayan-text mb-2">
+                                Nomor WhatsApp <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <i class="fa-brands fa-whatsapp absolute left-3.5 top-3.5 text-papandayan-textLight text-sm"></i>
+                                <input type="tel" id="form-whatsapp" required placeholder="08123456789" class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-papandayan-primary focus:ring-2 focus:ring-papandayan-primary/20 text-sm outline-none transition-all">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pilih Layanan -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-papandayan-text mb-2">
+                            Pilih Layanan / Penginapan <span class="text-red-500">*</span>
+                        </label>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <label class="service-radio-card cursor-pointer p-3.5 rounded-xl border border-gray-200 flex items-center gap-3 transition-all">
+                                <input type="radio" name="form-layanan" value="kamar" checked onchange="updateCalculatedPrice()" class="text-papandayan-primary focus:ring-papandayan-primary">
+                                <div>
+                                    <span class="block font-bold text-xs text-papandayan-text">Homestay Kamar</span>
+                                    <span class="text-[10px] text-papandayan-textLight">Rp200.000 / malam</span>
+                                </div>
+                            </label>
+
+                            <label class="service-radio-card cursor-pointer p-3.5 rounded-xl border border-gray-200 flex items-center gap-3 transition-all">
+                                <input type="radio" name="form-layanan" value="full-house" onchange="updateCalculatedPrice()" class="text-papandayan-primary focus:ring-papandayan-primary">
+                                <div>
+                                    <span class="block font-bold text-xs text-papandayan-text">Full House</span>
+                                    <span class="text-[10px] text-papandayan-textLight">Rp300.000 / malam</span>
+                                </div>
+                            </label>
+
+                            <label class="service-radio-card cursor-pointer p-3.5 rounded-xl border border-gray-200 flex items-center gap-3 transition-all">
+                                <input type="radio" name="form-layanan" value="tour-guide" onchange="updateCalculatedPrice()" class="text-papandayan-primary focus:ring-papandayan-primary">
+                                <div>
+                                    <span class="block font-bold text-xs text-papandayan-text">Paket Tour Guide</span>
+                                    <span class="text-[10px] text-papandayan-textLight">Sesuai Rombongan</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Tanggal Checkin & Checkout -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-papandayan-text mb-2">
+                                Tanggal Check-in <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <i class="fa-solid fa-calendar-days absolute left-3.5 top-3.5 text-papandayan-textLight text-sm z-10"></i>
+                                <input type="text" id="form-checkin" required placeholder="Pilih Tanggal Masuk" class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-papandayan-primary focus:ring-2 focus:ring-papandayan-primary/20 text-sm outline-none transition-all bg-white">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-papandayan-text mb-2">
+                                Tanggal Check-out <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <i class="fa-solid fa-calendar-check absolute left-3.5 top-3.5 text-papandayan-textLight text-sm z-10"></i>
+                                <input type="text" id="form-checkout" required placeholder="Pilih Tanggal Keluar" class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-papandayan-primary focus:ring-2 focus:ring-papandayan-primary/20 text-sm outline-none transition-all bg-white">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Jumlah Tamu & Notes -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-papandayan-text mb-2">
+                                Jumlah Tamu <span class="text-red-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <i class="fa-solid fa-users absolute left-3.5 top-3.5 text-papandayan-textLight text-sm"></i>
+                                <input type="number" id="form-tamu" min="1" max="25" value="2" required class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-papandayan-primary focus:ring-2 focus:ring-papandayan-primary/20 text-sm outline-none transition-all">
+                            </div>
+                        </div>
+
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-bold uppercase tracking-wider text-papandayan-text mb-2">
+                                Catatan Tambahan (Opsional)
+                            </label>
+                            <input type="text" id="form-catatan" placeholder="Contoh: Datang malam pukul 20.00, butuh sewa sleeping bag" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-papandayan-primary focus:ring-2 focus:ring-papandayan-primary/20 text-sm outline-none transition-all">
+                        </div>
+                    </div>
+
+                    <!-- Live Price Summary Box -->
+                    <div id="booking-summary-box" class="p-4 rounded-xl bg-papandayan-bg border border-papandayan-primary/20 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm">
+                        <div>
+                            <span class="text-xs text-papandayan-textLight block">Estimasi Biaya:</span>
+                            <span id="summary-price-text" class="text-lg font-bold text-papandayan-dark">Rp 200.000</span>
+                            <span id="summary-nights-text" class="text-xs text-papandayan-textLight font-medium"> (1 malam)</span>
+                        </div>
+                        <div class="text-xs text-papandayan-textLight text-right">
+                            <i class="fa-solid fa-circle-check text-papandayan-primary mr-1"></i> Tanpa Biaya Tersembunyi
+                        </div>
+                    </div>
+
+                    <button type="submit" id="btn-submit-booking" class="w-full btn-primary text-center py-4 text-base font-bold flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i> Kirim Permintaan Booking
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT & FOOTER -->
+    <section id="kontak" class="py-16 bg-gradient-to-b from-white to-[#EBF5E6]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <span class="text-xs font-bold uppercase tracking-widest text-papandayan-primary block">Lokasi & Kontak</span>
+                    <h2 class="text-3xl font-extrabold text-papandayan-text">Siap Mengunjungi Gunung Papandayan?</h2>
+                    <p class="text-papandayan-textLight text-sm leading-relaxed">
+                        Lokasi homestay kami berjarak sangat dekat dengan Basecamp Utama Gunung Papandayan Cisurupan Garut. Udara sejuk, parkiran aman, dan pemandu lokal siap menemani perjalanan wisata Anda.
+                    </p>
+
+                    <div class="space-y-4 text-sm">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-papandayan-primary/15 text-papandayan-dark flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <span class="font-bold text-papandayan-text block">Alamat Homestay</span>
+                                <span class="text-papandayan-textLight">Kp cimayid, Kec. Cisurupan, Kabupaten Garut, Jawa Barat 44163</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-papandayan-primary/15 text-papandayan-dark flex items-center justify-center shrink-0">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </div>
+                            <div>
+                                <span class="font-bold text-papandayan-text block">WhatsApp Official</span>
+                                <span class="text-papandayan-textLight">+62 877-3278-8405 (Respon Cepat)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-nature p-6 bg-white flex flex-col justify-between h-100 relative overflow-hidden" >
+                    <div class="absolute inset-0 bg-gradient-to-br from-papandayan-primary/10 to-transparent pointer-events-none"></div>
+                    <div class="z-10" >
+                    <h4 class="font-bold text-lg text-papandayan-text mb-3">
+                        <i class="fa-solid fa-map-location-dot text-papandayan-primary mr-2"></i>
+                        Lokasi PapandayanTour
+                    </h4>
+
+                    <div class="rounded-2xl overflow-hidden border border-white/60 shadow-md mb-4">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.3939528965525!2d107.7766125750002!3d-7.309562492698314!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68a500172b665f%3A0x26ebab7a5138977d!2sAsep%20jangkung%20homestay!5e0!3m2!1sid!2sid!4v1785679002765!5m2!1sid!2sid" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin">
+                            width="100%"
+                            height="260"
+                            style="border:0;"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+
+                    <a href="https://maps.app.goo.gl/dkftftVwJYQMRGuP9"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-papandayan-primary text-white text-sm font-semibold hover:bg-papandayan-dark transition-colors" style="margin-bottom: 10px;">
+                        <i class="fa-brands fa-google"></i>
+                        Buka di Google Maps
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-papandayan-text text-white py-8 border-t border-emerald-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-emerald-200">
+            <div class="flex items-center gap-2">
+                <img src="papandayantour.png" alt="" class="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-papandayan-primary shadow-md border border-emerald-100 group-hover:scale-105 transition-transform"></img>
+                <span>&copy; 2026. All rights reserved.</span>
+                 <span>Designed & Developed by <a href="https://www.instagram.com/tedifirdaus7/"><span class="font-semibold text-white">@Tedi Firdaus</span></a>
+            </div>
+            <div>
+                Homestay & Tour Guide Resmi Gunung Papandayan Garut
+            </div>
+        </div>
+    </footer>
+
+    <!-- ADMIN MODAL DASHBOARD -->
+    <div id="admin-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl border border-papandayan-primary/20">
+            <!-- Admin Header -->
+            <div class="p-6 bg-papandayan-text text-white flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-xl bg-papandayan-primary flex items-center justify-center text-white font-bold">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base leading-none">Dashboard Admin PapandayanTour</h3>
+                        <span class="text-[11px] text-papandayan-light">Kelola & Konfirmasi Booking Real-Time</span>
+                    </div>
+                </div>
+                <button onclick="toggleAdminModal()" class="text-white/70 hover:text-white text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Admin Body -->
+            <div id="admin-content" class="p-6 overflow-y-auto space-y-6 flex-1">
+                <!-- Login Box (If not authenticated) -->
+                <div id="admin-login-box" class="max-w-md mx-auto my-8 p-6 card-nature text-center">
+                    <i class="fa-solid fa-lock text-3xl text-papandayan-primary mb-3"></i>
+                    <h4 class="font-bold text-lg text-papandayan-text mb-1">Masuk Portal Admin</h4>
+                    <p class="text-xs text-papandayan-textLight mb-4">Fitur ini hanya dapat digunakan oleh admin.</p>
+                    <input type="password" id="admin-pass-input" placeholder="Masukkan Kata Sandi" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm mb-4 outline-none focus:border-papandayan-primary">
+                    <button onclick="checkAdminPass()" class="btn-primary w-full py-2.5 text-sm">Masuk Dashboard</button>
+                </div>
+
+                <!-- Admin Dashboard Main Controls (Hidden until login) -->
+                <div id="admin-main-panel" class="hidden space-y-6">
+                    <!-- Stat Counters -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <div class="p-4 rounded-xl bg-blue-50 border border-blue-200 text-blue-900">
+                            <span class="block text-xs font-medium">Total Booking</span>
+                            <span id="stat-total" class="text-2xl font-extrabold">0</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900">
+                            <span class="block text-xs font-medium">Pending</span>
+                            <span id="stat-pending" class="text-2xl font-extrabold">0</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900">
+                            <span class="block text-xs font-medium">Confirmed (Blokir Date)</span>
+                            <span id="stat-confirmed" class="text-2xl font-extrabold">0</span>
+                        </div>
+                        <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-900">
+                            <span class="block text-xs font-medium">Ditolak / Batal</span>
+                            <span id="stat-cancelled" class="text-2xl font-extrabold">0</span>
+                        </div>
+                    </div>
+
+                    <!-- Filters -->
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-papandayan-bg p-4 rounded-xl border border-gray-200 text-xs">
+                        <div class="flex items-center gap-3 w-full sm:w-auto">
+                            <span class="font-bold text-papandayan-text">Filter Status:</span>
+                            <select id="admin-filter-status" onchange="renderAdminBookingsList()" class="px-3 py-2 rounded-lg border border-gray-300 bg-white font-medium">
+                                <option value="all">Semua Status</option>
+                                <option value="pending">Pending</option>
+                                <option value="confirmed">Confirmed (Terkonfirmasi)</option>
+                                <option value="cancelled">Cancelled (Batal)</option>
+                            </select>
+                        </div>
+                        <button onclick="logoutAdmin()" class="text-rose-600 font-semibold hover:underline">
+                            <i class="fa-solid fa-right-from-bracket mr-1"></i> Logout Admin
+                        </button>
+                    </div>
+
+                    <!-- Table / List of Bookings -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs">
+                            <thead>
+                                <tr class="border-b border-gray-200 bg-gray-50 text-papandayan-text font-bold">
+                                    <th class="p-3">Pelanggan</th>
+                                    <th class="p-3">Layanan</th>
+                                    <th class="p-3">Tanggal Check-In/Out</th>
+                                    <th class="p-3">Tamu</th>
+                                    <th class="p-3">Status</th>
+                                    <th class="p-3 text-right">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-bookings-table-body" class="divide-y divide-gray-100">
+                                <!-- Populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST & MODALS ALERTS -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- FIREBASE INITIALIZATION & APPLICATION JS -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+      import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+      import {
+        getFirestore,
+        collection,
+        onSnapshot,
+        addDoc,
+        updateDoc,
+        doc,
+        getDoc,
+        serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+      // App Config & Fallbacks
+      // Firebase Config ASLI PapandayanTour
+        const appId = 'papandayantour-5293f';
+
+        const firebaseConfig = {
+        apiKey: "AIzaSyD0ONPCHOzqXEHl47h258ED5NZjsGmYbWk",
+        authDomain: "papandayantour-5293f.firebaseapp.com",
+        projectId: "papandayantour-5293f",
+        storageBucket: "papandayantour-5293f.firebasestorage.app",
+        messagingSenderId: "276973734905",
+        appId: "1:276973734905:web:7c9791cc6260dc6d8d4b28",
+        measurementId: "G-83NW8TR1N9"
+        };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
+      console.log('Firebase connected:', firebaseConfig.projectId);
+
+      // Global App State
+      window.allBookings = [];
+      window.isAdminLoggedIn = false;
+      window.currentCalendarYear = 2026;
+      window.currentCalendarMonth = 7; // August (0-indexed: 7 = August)
+      
+      let checkinPicker, checkoutPicker;
+
+      // Authenticate strictly first
+      async function authenticateUser() {
+        try {
+            // Langsung gunakan Firestore tanpa login
+            console.log("Firebase connected:", firebaseConfig.projectId);
+            setupRealtimeBookingsListener();
+        } catch (err) {
+            console.error("Firebase error:", err);
+            showToast("Gagal terhubung ke Firebase.", "error");
+        }
+        }
+      function setupRealtimeBookingsListener() {
+        const publicBookingsCol = collection(db, 'bookings');
+        
+        onSnapshot(publicBookingsCol, (snapshot) => {
+          window.allBookings = [];
+          snapshot.forEach((docSnap) => {
+            window.allBookings.push({
+              id: docSnap.id,
+              ...docSnap.data()
+            });
+          });
+
+          // Re-render Calendar and Admin Table live
+          renderCalendarOverview();
+          if (window.isAdminLoggedIn) {
+            renderAdminBookingsList();
+          }
+        }, (error) => {
+          console.error("Firestore Listener Error:", error);
+          showToast("Gagal memperbarui data real-time.", "error");
+        });
+      }
+
+      // Date Helper: Get array of YYYY-MM-DD for nights in stay [checkIn, checkOut)
+      function getNightsInDateRange(checkInStr, checkOutStr) {
+        const nights = [];
+
+        let curr = new Date(checkInStr + 'T00:00:00');
+        const end = new Date(checkOutStr + 'T00:00:00');
+
+        // check-out tidak ikut diblokir
+        while (curr < end) {
+            const year = curr.getFullYear();
+            const month = String(curr.getMonth() + 1).padStart(2, '0');
+            const day = String(curr.getDate()).padStart(2, '0');
+
+            nights.push(`${year}-${month}-${day}`);
+
+            curr.setDate(curr.getDate() + 1);
+        }
+
+        return nights;
+        }
+
+      // Check if date range is available for selected service
+      window.isDateRangeAvailable = function(checkInStr, checkOutStr, serviceType, bookingsList) {
+        if (!checkInStr || !checkOutStr) return { available: true };
+        
+        const requestedNights = getNightsInDateRange(checkInStr, checkOutStr);
+        if (requestedNights.length === 0) return { available: false, reason: "Tanggal check-out harus setelah check-in." };
+
+        // Capacity rules based on user requirements
+        const maxCapacity = serviceType === 'kamar' ? 2 : (serviceType === 'full-house' ? 1 : 999);
+
+        // Filter CONFIRMED bookings only for blocking dates
+        const confirmedBookings = (bookingsList || window.allBookings).filter(b => b.status === 'confirmed');
+
+        for (let night of requestedNights) {
+          let bookedCount = 0;
+          for (let b of confirmedBookings) {
+            if (b.layanan === serviceType) {
+              const bNights = getNightsInDateRange(b.checkIn, b.checkOut);
+              if (bNights.includes(night)) {
+                bookedCount++;
+              }
+            }
+          }
+
+          if (bookedCount >= maxCapacity) {
+            return {
+              available: false,
+              conflictDate: night,
+              serviceType: serviceType,
+              bookedCount: bookedCount,
+              maxCapacity: maxCapacity,
+              reason: `Tanggal ${night} sudah penuh untuk layanan ini (${bookedCount}/${maxCapacity} dipesan).`
+            };
+          }
+        }
+
+        return { available: true };
+      };
+
+      // Flatpickr Initialization
+      window.initPickers = function() {
+        const today = new Date().toISOString().split('T')[0];
+
+        checkinPicker = flatpickr("#form-checkin", {
+          minDate: "today",
+          dateFormat: "Y-m-d",
+          onChange: function(selectedDates, dateStr) {
+            if (selectedDates[0]) {
+              const nextDay = new Date(selectedDates[0]);
+              nextDay.setDate(nextDay.getDate() + 1);
+              checkoutPicker.set("minDate", nextDay);
+              if (!checkoutPicker.selectedDates[0] || checkoutPicker.selectedDates[0] <= selectedDates[0]) {
+                checkoutPicker.setDate(nextDay);
+              }
+              updateCalculatedPrice();
+            }
+          }
+        });
+
+        checkoutPicker = flatpickr("#form-checkout", {
+          minDate: "today",
+          dateFormat: "Y-m-d",
+          onChange: function() {
+            updateCalculatedPrice();
+          }
+        });
+      };
+
+      window.updateCalculatedPrice = function() {
+        const checkIn = document.getElementById('form-checkin').value;
+        const checkOut = document.getElementById('form-checkout').value;
+        const selectedLayanan = document.querySelector('input[name="form-layanan"]:checked')?.value || 'kamar';
+
+        let pricePerNight = 200000;
+        if (selectedLayanan === 'full-house') pricePerNight = 300000;
+        if (selectedLayanan === 'tour-guide') pricePerNight = 150000;
+
+        if (checkIn && checkOut) {
+          const nights = getNightsInDateRange(checkIn, checkOut).length;
+          if (nights > 0) {
+            const total = nights * pricePerNight;
+            document.getElementById('summary-price-text').innerText = selectedLayanan === 'tour-guide' ? `Rp ${total.toLocaleString('id-ID')} (Perkiraan Base)` : `Rp ${total.toLocaleString('id-ID')}`;
+            document.getElementById('summary-nights-text').innerText = ` (${nights} malam)`;
+            return;
+          }
+        }
+        
+        document.getElementById('summary-price-text').innerText = selectedLayanan === 'tour-guide' ? 'Nego Sesuai Rombongan' : `Rp ${pricePerNight.toLocaleString('id-ID')}`;
+        document.getElementById('summary-nights-text').innerText = ' (per malam)';
+      };
+
+      window.selectServiceInForm = function(serviceVal) {
+        const radio = document.querySelector(`input[name="form-layanan"][value="${serviceVal}"]`);
+        if (radio) {
+          radio.checked = true;
+          updateCalculatedPrice();
+          document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+        }
+      };
+
+      // Form submission handler
+      window.handleBookingSubmit = async function(e) {
+        e.preventDefault();
+
+        const nama = document.getElementById('form-nama').value.trim();
+        const whatsapp = document.getElementById('form-whatsapp').value.trim();
+        const layanan = document.querySelector('input[name="form-layanan"]:checked').value;
+        const checkIn = document.getElementById('form-checkin').value;
+        const checkOut = document.getElementById('form-checkout').value;
+        const jumlahTamu = parseInt(document.getElementById('form-tamu').value) || 1;
+        const catatan = document.getElementById('form-catatan').value.trim();
+
+        if (!checkIn || !checkOut) {
+          showToast("Harap pilih tanggal check-in dan check-out.", "warning");
+          return;
+        }
+
+        // Validate date collision
+        const availabilityCheck = window.isDateRangeAvailable(checkIn, checkOut, layanan, window.allBookings);
+        if (!availabilityCheck.available) {
+          showToast(availabilityCheck.reason || 'Tanggal yang dipilih sudah dibooking. Silakan pilih tanggal lain.', "error");
+          return;
+        }
+
+        const btn = document.getElementById('btn-submit-booking');
+        btn.disabled = true;
+        btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Memproses Booking...`;
+
+        try {
+          // Save to Firestore
+          const newBookingData = {
+            nama,
+            whatsapp,
+            layanan,
+            checkIn,
+            checkOut,
+            jumlahTamu,
+            catatan,
+            status: 'pending',
+            createdAt: serverTimestamp()
+          };
+
+          const publicBookingsCol = collection(db, 'bookings');
+          await addDoc(publicBookingsCol, newBookingData);
+
+          showToast("Booking berhasil diajukan!", "success");
+
+          // Reset Form
+          document.getElementById('booking-form').reset();
+          checkinPicker.clear();
+          checkoutPicker.clear();
+
+          // Formatted WhatsApp message redirect
+          const layananLabel = layanan === 'kamar' ? 'Homestay Kamar (Rp200k/malam)' : (layanan === 'full-house' ? 'Full House (Rp300k/malam)' : 'Paket Tour Guide');
+          const waMessage = `Halo PapandayanTour,%0A%0ASaya%20ingin%20booking%20di%20PapandayanTour:%0A- Nama: ${encodeURIComponent(nama)}%0A- WhatsApp: ${encodeURIComponent(whatsapp)}%0A- Layanan: ${encodeURIComponent(layananLabel)}%0A- Check-in: ${checkIn}%0A- Check-out: ${checkOut}%0A- Jumlah Tamu: ${jumlahTamu} Orang%0A- Catatan: ${encodeURIComponent(catatan || '-')}%0A%0AMohon%20konfirmasi%20ketersediaannya.`;
+          
+          setTimeout(() => {
+            window.open(`https://wa.me/6287732788405?text=${waMessage}`, '_blank');
+          }, 1000);
+
+        } catch (err) {
+          console.error("Error submitting booking:", err);
+          showToast("Terjadi kesalahan saat menyimpan booking.", "error");
+        } finally {
+          btn.disabled = false;
+          btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Kirim Permintaan Booking`;
+        }
+      };
+
+      // Render visual monthly overview
+      window.renderCalendarOverview = function() {
+        const grid = document.getElementById('calendar-days-grid');
+        if (!grid) return;
+
+        grid.innerHTML = '';
+
+        const year = window.currentCalendarYear;
+        const month = window.currentCalendarMonth;
+
+        const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        document.getElementById('current-month-title').innerText = `${monthNames[month]} ${year}`;
+
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        const selectedFilter = document.querySelector('input[name="calendar-filter"]:checked')?.value || 'all';
+
+        // Empty padding cells
+        for (let i = 0; i < firstDay; i++) {
+          const emptyCell = document.createElement('div');
+          emptyCell.className = 'p-3 bg-gray-50/50 rounded-xl border border-transparent';
+          grid.appendChild(emptyCell);
+        }
+
+        // Active days
+        for (let day = 1; day <= daysInMonth; day++) {
+          const dayStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+          
+          let kamarBooked = 0;
+          let fullHouseBooked = 0;
+
+          // Check confirmed bookings for this day
+          window.allBookings.forEach(b => {
+            // hanya booking yang sudah dikonfirmasi
+            if (b.status === 'confirmed') {
+                const nights = getNightsInDateRange(b.checkIn, b.checkOut);
+
+                if (nights.includes(dayStr)) {
+                // ambil field layanan atau tipe
+                const jenis = b.layanan || b.tipe;
+
+                // HOMESTAY KAMAR
+                if (jenis === 'kamar' || jenis === 'Homestay Kamar') {
+                    kamarBooked++;
+                }
+
+                // FULL HOUSE
+                if (jenis === 'full-house' || jenis === 'Full House') {
+                    fullHouseBooked++;
+                }
+                }
+            }
+            });
+
+          let cellBg = 'bg-emerald-50 border-emerald-200 text-emerald-900 hover:bg-emerald-100';
+          let statusText = 'Tersedia';
+          let isClickable = true;
+
+          if (selectedFilter === 'kamar') {
+            if (kamarBooked >= 2) {
+              cellBg = 'bg-rose-50 border-rose-300 text-rose-800 opacity-80';
+              statusText = 'Penuh (2/2)';
+              isClickable = false;
+            } else if (kamarBooked === 1) {
+              cellBg = 'bg-amber-50 border-amber-300 text-amber-900';
+              statusText = 'Sisa 1 Kamar';
+            }
+          } else if (selectedFilter === 'full-house') {
+            if (fullHouseBooked >= 1) {
+              cellBg = 'bg-rose-50 border-rose-300 text-rose-800 opacity-80';
+              statusText = 'Booked';
+              isClickable = false;
+            }
+          } else {
+            // ALL FILTER
+            // ALL FILTER
+            const statusParts = [];
+
+            // Status kamar
+            if (kamarBooked >= 2) {
+            statusParts.push('• Kamar Penuh');
+            } else if (kamarBooked === 1) {
+            statusParts.push('• Kamar 1/2');
+            }
+
+            // Status full house
+            if (fullHouseBooked >= 1) {
+            statusParts.push('• Full House');
+            }
+
+            // Tentukan tampilan akhir
+            if (statusParts.length === 0) {
+            // Semua tersedia
+            cellBg = 'bg-emerald-50 border-emerald-200 text-emerald-900 hover:bg-emerald-100';
+            statusText = 'Tersedia';
+            isClickable = true;
+
+            } else {
+            // Ada yang terisi
+            statusText = statusParts.join(' <br> ');
+
+            // Warna merah hanya jika kamar penuh DAN full house booked
+            if (kamarBooked >= 2 && fullHouseBooked >= 1) {
+                cellBg = 'bg-rose-50 border-rose-300 text-rose-800 opacity-80';
+                isClickable = false;
+            } else {
+                // Masih ada unit yang bisa dibooking
+                cellBg = 'bg-amber-50 border-amber-300 text-amber-900';
+                isClickable = true;
+            }
+            }
+          }
+
+          const cell = document.createElement('div');
+          cell.className = `p-2 sm:p-3 rounded-xl border text-left transition-all flex flex-col justify-between h-16 sm:h-20 ${cellBg} ${isClickable ? 'cursor-pointer' : 'cursor-not-allowed'}`;
+          
+          cell.innerHTML = `
+            <span class="font-bold text-sm block">${day}</span>
+            <span class="text-[9px] sm:text-[10px] font-semibold tracking-tight block truncate">${statusText}</span>
+          `;
+
+          if (isClickable) {
+            cell.onclick = () => {
+              checkinPicker.setDate(dayStr);
+              document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+              showToast(`Tanggal ${dayStr} dipilih untuk Check-In.`, 'info');
+            };
+          }
+
+          grid.appendChild(cell);
+        }
+      };
+
+      window.changeCalendarMonth = function(offset) {
+        window.currentCalendarMonth += offset;
+        if (window.currentCalendarMonth < 0) {
+          window.currentCalendarMonth = 11;
+          window.currentCalendarYear--;
+        } else if (window.currentCalendarMonth > 11) {
+          window.currentCalendarMonth = 0;
+          window.currentCalendarYear++;
+        }
+        renderCalendarOverview();
+      };
+
+      // Admin Functions
+      window.toggleAdminModal = function() {
+        const modal = document.getElementById('admin-modal');
+        modal.classList.toggle('hidden');
+        modal.classList.toggle('flex');
+      };
+
+      window.checkAdminPass = async function() {
+        const inputPass = document.getElementById('admin-pass-input').value.trim();
+
+        if (!inputPass) {
+            showToast('Masukkan password admin.', 'warning');
+            return;
+        }
+
+        try {
+            const adminRef = doc(db, 'admins', 'main');
+            const adminSnap = await getDoc(adminRef);
+
+            if (!adminSnap.exists()) {
+            showToast('Data admin tidak ditemukan.', 'error');
+            return;
+            }
+
+            const adminData = adminSnap.data();
+
+            if (inputPass === adminData.password) {
+            window.isAdminLoggedIn = true;
+
+            document.getElementById('admin-login-box').classList.add('hidden');
+            document.getElementById('admin-main-panel').classList.remove('hidden');
+
+            renderAdminBookingsList();
+            showToast('Berhasil login sebagai Admin', 'success');
+            } else {
+            showToast('Kata sandi admin salah!', 'error');
+            }
+
+        } catch (err) {
+            console.error('Admin login error:', err);
+            showToast('Gagal memverifikasi admin.', 'error');
+        }
+        };
+
+      window.logoutAdmin = function() {
+        window.isAdminLoggedIn = false;
+        document.getElementById('admin-login-box').classList.remove('hidden');
+        document.getElementById('admin-main-panel').classList.add('hidden');
+        document.getElementById('admin-pass-input').value = '';
+      };
+
+      window.renderAdminBookingsList = function() {
+        const tbody = document.getElementById('admin-bookings-table-body');
+        if (!tbody) return;
+
+        tbody.innerHTML = '';
+
+        const filterStatus = document.getElementById('admin-filter-status')?.value || 'all';
+        const filtered = window.allBookings.filter(b => filterStatus === 'all' || b.status === filterStatus);
+
+        // Update stats
+        document.getElementById('stat-total').innerText = window.allBookings.length;
+        document.getElementById('stat-pending').innerText = window.allBookings.filter(b => b.status === 'pending').length;
+        document.getElementById('stat-confirmed').innerText = window.allBookings.filter(b => b.status === 'confirmed').length;
+        document.getElementById('stat-cancelled').innerText = window.allBookings.filter(b => b.status === 'cancelled').length;
+
+        if (filtered.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-gray-400">Tidak ada booking ditemukan.</td></tr>`;
+          return;
+        }
+
+        filtered.sort((a,b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)).forEach(b => {
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-gray-50 transition-colors';
+
+          let statusBadge = `<span class="px-2 py-1 rounded bg-amber-100 text-amber-800 font-bold">Pending</span>`;
+          if (b.status === 'confirmed') statusBadge = `<span class="px-2 py-1 rounded bg-emerald-100 text-emerald-800 font-bold">Confirmed</span>`;
+          if (b.status === 'cancelled') statusBadge = `<span class="px-2 py-1 rounded bg-rose-100 text-rose-800 font-bold">Batal/Tolak</span>`;
+
+          const layananText = b.layanan === 'kamar' ? 'Homestay Kamar' : (b.layanan === 'full-house' ? 'Full House' : 'Tour Guide');
+
+          tr.innerHTML = `
+            <td class="p-3">
+              <span class="font-bold text-papandayan-text block">${escapeHtml(b.nama)}</span>
+              <a href="https://wa.me/${escapeHtml(b.whatsapp)}" target="_blank" class="text-emerald-600 hover:underline"><i class="fa-brands fa-whatsapp"></i> ${escapeHtml(b.whatsapp)}</a>
+            </td>
+            <td class="p-3 font-medium text-papandayan-text">${layananText}</td>
+            <td class="p-3">
+              <span class="font-semibold block">${b.checkIn} s/d ${b.checkOut}</span>
+            </td>
+            <td class="p-3 font-medium">${b.jumlahTamu} Orang</td>
+            <td class="p-3">${statusBadge}</td>
+            <td class="p-3 text-right space-x-1">
+              ${b.status !== 'confirmed' ? `<button onclick="updateBookingStatus('${b.id}', 'confirmed')" class="px-2.5 py-1.5 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 font-semibold text-[11px]"><i class="fa-solid fa-check"></i> Konfirmasi</button>` : ''}
+              ${b.status !== 'cancelled' ? `<button onclick="updateBookingStatus('${b.id}', 'cancelled')" class="px-2.5 py-1.5 bg-rose-600 text-white rounded-lg hover:bg-rose-700 font-semibold text-[11px]"><i class="fa-solid fa-xmark"></i> Batalkan</button>` : ''}
+            </td>
+          `;
+
+          tbody.appendChild(tr);
+        });
+      };
+
+      window.updateBookingStatus = async function(bookingId, newStatus) {
+        try {
+            const bookingRef = doc(db, 'bookings', bookingId);
+
+            await updateDoc(bookingRef, {
+            status: newStatus
+            });
+
+            // update data lokal langsung
+            const target = window.allBookings.find(b => b.id === bookingId);
+            if (target) {
+            target.status = newStatus;
+            }
+
+            // render ulang setelah data lokal berubah
+            renderCalendarOverview();
+
+            if (window.isAdminLoggedIn) {
+            renderAdminBookingsList();
+            }
+
+            showToast(`Status booking berhasil diubah ke ${newStatus}`, 'success');
+
+        } catch (err) {
+            console.error('Failed to update status:', err);
+            showToast('Gagal mengupdate status booking.', 'error');
+        }
+        };
+            // Toast Notification Helper
+      window.showToast = function(msg, type = 'info') {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        
+        let bg = 'bg-papandayan-text text-white';
+        let icon = 'fa-circle-info text-sky-400';
+        if (type === 'success') { bg = 'bg-emerald-900 text-white'; icon = 'fa-circle-check text-emerald-400'; }
+        if (type === 'error') { bg = 'bg-rose-900 text-white'; icon = 'fa-triangle-exclamation text-rose-400'; }
+        if (type === 'warning') { bg = 'bg-amber-900 text-white'; icon = 'fa-circle-exclamation text-amber-400'; }
+
+        toast.className = `p-4 rounded-xl shadow-xl flex items-center gap-3 text-xs font-semibold ${bg} transition-all transform translate-y-2 opacity-0 pointer-events-auto border border-white/10 max-w-xs sm:max-w-md`;
+        toast.innerHTML = `<i class="fa-solid ${icon} text-base"></i> <span>${escapeHtml(msg)}</span>`;
+
+        container.appendChild(toast);
+
+        setTimeout(() => {
+          toast.classList.remove('translate-y-2', 'opacity-0');
+        }, 50);
+
+        setTimeout(() => {
+          toast.classList.add('opacity-0', 'translate-y-2');
+          setTimeout(() => toast.remove(), 300);
+        }, 4000);
+      };
+
+      function escapeHtml(str) {
+        return String(str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+
+      // Navbar scroll behavior
+      window.addEventListener('scroll', () => {
+        const header = document.getElementById('main-header');
+        if (window.scrollY > 50) {
+          header.classList.add('bg-white/90', 'backdrop-blur-md', 'shadow-md', 'py-2');
+          header.classList.remove('bg-transparent', 'py-4');
+        } else {
+          header.classList.remove('bg-white/90', 'backdrop-blur-md', 'shadow-md', 'py-2');
+          header.classList.add('bg-transparent', 'py-4');
+        }
+      });
+
+      // Mobile Menu Toggle
+      document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
+        document.getElementById('mobile-menu').classList.toggle('hidden');
+      });
+
+      // Window load trigger
+      window.onload = function() {
+        initPickers();
+        authenticateUser();
+      };
+    </script>
+</body>
+</html>
