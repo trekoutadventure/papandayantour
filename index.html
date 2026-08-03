@@ -1720,10 +1720,10 @@ font-size:38px;
 
                     if(newStatus === "confirmed"){
 
-                        pesan = `Halo Kak ${target.nama},\n\nBooking Anda telah *DIKONFIRMASI*.\n\n━━━━━━━━━━━━━━\n\nLayanan : ${layanan}\nCheck In : ${target.checkIn}\nCheck Out : ${target.checkOut}\nJumlah Tamu : ${target.jumlahTamu} Orang\n\n━━━━━━━━━━━━━━\n\nSilakan datang sesuai jadwal.\nTerima kasih.\n\n_Admin Papandayan Tour_`;
+                        pesan = `Halo Kak ${target.nama},\n\nBooking Anda telah *DIKONFIRMASI*.\n\n━━━━━━━━━━━━━━\n\nLayanan : ${layanan}\nCheck In : ${target.checkIn}\nCheck Out : ${target.checkOut}\nJumlah Tamu : ${target.jumlahTamu} Orang\n\n━━━━━━━━━━━━━━\n\nSilakan segera menyelesaikan pembayaran agar booking Anda dapat kami proses.\n\nPembayaran dapat ditransfer ke rekening berikut:\n\nBank : BCA\nNo. Rekening : 1234567890\nAtas Nama : Agung Setia Budi\n\n*Mohon kirimkan bukti pembayaran melalui chat ini setelah melakukan transfer.*\n\nTerima kasih telah mempercayakan perjalanan Anda kepada Papandayan Tour.\n\nSalam Hangat\n_Admin Papandayan Tour_`;
                     }else{
 
-                        pesan = `Halo Kak ${target.nama},\nMohon maaf.\nBooking Anda *BELUM DAPAT KAMI TERIMA*.\n\n━━━━━━━━━━━━━━\n\nLayanan : ${layanan}\nCheck In : ${target.checkIn}\nCheck Out : ${target.checkOut}\n\n━━━━━━━━━━━━━━\n\nSilakan pilih tanggal lain.\nTerima kasih.\n\n_Admin Papandayan Tour_`;
+                        pesan = `Halo Kak ${target.nama},\n\nTerima kasih telah melakukan booking di *Papandayan Tour*.\nMohon maaf, setelah kami lakukan pengecekan, *booking Anda belum dapat kami terima*.\n\n━━━━━━━━━━━━━━\n\nLayanan : ${layanan}\nCheck In : ${target.checkIn}\nCheck Out : ${target.checkOut}\n\n━━━━━━━━━━━━━━\n\nHal ini dapat terjadi karena terdapat kendala pada ketersediaan layanan di tanggal yang dipilih.\nSilakan menghubungi kami kembali untuk memilih jadwal alternatif atau layanan lainnya. Kami akan dengan senang hati membantu Anda.\n\nTerima kasih atas pengertiannya.\n\nSalam Hangat,\n_Admin Papandayan Tour_`;
                     }
 
                     const nomor = target.whatsapp.replace(/^0/, "62");
