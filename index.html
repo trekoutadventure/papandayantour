@@ -1693,33 +1693,73 @@ font-size:38px;
       };
 
       window.updateBookingStatus = async function(bookingId, newStatus) {
-        try {
-            const bookingRef = doc(db, 'bookings', bookingId);
 
-            await updateDoc(bookingRef, {
-            status: newStatus
-            });
+            try {
 
-            // update data lokal langsung
-            const target = window.allBookings.find(b => b.id === bookingId);
-            if (target) {
-            target.status = newStatus;
+                const bookingRef = doc(db, "bookings", bookingId);
+
+                await updateDoc(bookingRef, {
+                    status: newStatus
+                });
+
+                const target = window.allBookings.find(b => b.id === bookingId);
+
+                if (target) {
+
+                    target.status = newStatus;
+
+                    let layanan = "Homestay Kamar";
+
+                    if(target.layanan === "full-house")
+                        layanan = "Full House";
+
+                    if(target.layanan === "tour-guide")
+                        layanan = "Tour Guide";
+
+                    let pesan = "";
+
+                    if(newStatus === "confirmed"){
+
+                        pesan = `Halo Kak ${target.nama},\n\nBooking Anda telah *DIKONFIRMASI*.\n\n━━━━━━━━━━━━━━\n\nLayanan : ${layanan}\nCheck In : ${target.checkIn}\nCheck Out : ${target.checkOut}\nJumlah Tamu : ${target.jumlahTamu} Orang\n\n━━━━━━━━━━━━━━\n\nSilakan datang sesuai jadwal.\nTerima kasih.\n\n_Admin Papandayan Tour_`;
+                    }else{
+
+                        pesan = `Halo Kak ${target.nama},\nMohon maaf.\nBooking Anda *BELUM DAPAT KAMI TERIMA*.\n\n━━━━━━━━━━━━━━\n\nLayanan : ${layanan}\nCheck In : ${target.checkIn}\nCheck Out : ${target.checkOut}\n\n━━━━━━━━━━━━━━\n\nSilakan pilih tanggal lain.\nTerima kasih.\n\n_Admin Papandayan Tour_`;
+                    }
+
+                    const nomor = target.whatsapp.replace(/^0/, "62");
+
+                    window.open(
+                        `https://wa.me/${nomor}?text=${encodeURIComponent(pesan)}`,
+                        "_blank"
+                    );
+
+                }
+
+                renderCalendarOverview();
+
+                if(window.isAdminLoggedIn){
+
+                    renderAdminBookingsList();
+
+                }
+
+                showToast(
+                    `Status booking berhasil diubah.`,
+                    "success"
+                );
+
+            }catch(err){
+
+                console.error(err);
+
+                showToast(
+                    "Gagal mengupdate status booking.",
+                    "error"
+                );
+
             }
 
-            // render ulang setelah data lokal berubah
-            renderCalendarOverview();
-
-            if (window.isAdminLoggedIn) {
-            renderAdminBookingsList();
-            }
-
-            showToast(`Status booking berhasil diubah ke ${newStatus}`, 'success');
-
-        } catch (err) {
-            console.error('Failed to update status:', err);
-            showToast('Gagal mengupdate status booking.', 'error');
         }
-        };
             // Toast Notification Helper
       window.showToast = function(msg, type = 'info') {
         const container = document.getElementById('toast-container');
