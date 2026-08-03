@@ -1152,6 +1152,11 @@ font-size:38px;
                                 <option value="cancelled">Batal</option>
                             </select>
                         </div>
+                        <button
+                            onclick="exportBookingsToExcel()"
+                            class="text-green-600 font-semibold hover:underline">
+                            <i class="fa-solid fa-file-excel mr-1"></i> Export Excel
+                        </button>
                         <button onclick="logoutAdmin()" class="text-rose-600 font-semibold hover:underline">
                             <i class="fa-solid fa-right-from-bracket mr-1"></i> Logout Admin
                         </button>
@@ -1199,6 +1204,7 @@ font-size:38px;
         updateDoc,
         doc,
         getDoc,
+        getDocs,
         serverTimestamp
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
@@ -2034,6 +2040,64 @@ lightbox.classList.remove("show");
 }
 
 }
+
+window.exportBookingsToExcel = async function () {
+
+    const snapshot = await getDocs(collection(db, "bookings"));
+
+    const workbook = new ExcelJS.Workbook();
+
+    const worksheet = workbook.addWorksheet("Bookings");
+
+    worksheet.columns = [
+        { header: "Nama", key: "nama", width: 25 },
+        { header: "WhatsApp", key: "whatsapp", width: 20 },
+        { header: "Layanan", key: "layanan", width: 20 },
+        { header: "Check In", key: "checkIn", width: 15 },
+        { header: "Check Out", key: "checkOut", width: 15 },
+        { header: "Jumlah Tamu", key: "jumlahTamu", width: 15 },
+        { header: "Status", key: "status", width: 15 },
+        { header: "Catatan", key: "catatan", width: 35 },
+        { header: "Dibuat", key: "createdAt", width: 25 }
+    ];
+
+    snapshot.forEach(docSnap => {
+
+        const data = docSnap.data();
+
+        worksheet.addRow({
+            nama: data.nama || "",
+            whatsapp: data.whatsapp || "",
+            layanan: data.layanan || "",
+            checkIn: data.checkIn || "",
+            checkOut: data.checkOut || "",
+            jumlahTamu: data.jumlahTamu || "",
+            status: data.status || "",
+            catatan: data.catatan || "",
+            createdAt: data.createdAt
+                ? data.createdAt.toDate().toLocaleString("id-ID")
+                : ""
+        });
+
+    });
+
+    worksheet.getRow(1).font = {
+        bold: true
+    };
+
+    worksheet.getRow(1).alignment = {
+        vertical: "middle",
+        horizontal: "center"
+    };
+
+    const buffer = await workbook.xlsx.writeBuffer();
+
+    saveAs(
+        new Blob([buffer]),
+        `Booking_PapandayanTour_${new Date().toISOString().slice(0,10)}.xlsx`
+    );
+
+}
     </script>
 
 <!-- ===========================
@@ -2055,6 +2119,10 @@ lightbox.classList.remove("show");
     </button>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/exceljs/dist/exceljs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/file-saver/dist/FileSaver.min.js"></script>
+
 
 
 </body>
