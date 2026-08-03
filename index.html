@@ -151,6 +151,249 @@
         color: #166534;
         border: 1px solid #86efac;
       }
+      /* =========================
+        HERO IMAGE SLIDER
+        ========================= */
+
+        .hero-slider{
+            position:relative;
+            width:100%;
+            height:520px;
+            overflow:hidden;
+            border-radius:28px;
+            box-shadow:0 20px 60px rgba(0,0,0,.15);
+        }
+
+        .hero-slide{
+            position:absolute;
+            inset:0;
+            opacity:0;
+            transition:opacity .8s ease;
+        }
+
+        .hero-slide.active{
+            opacity:1;
+        }
+
+        .hero-slide img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+        }
+
+        .hero-overlay{
+            position:absolute;
+            inset:0;
+            background:linear-gradient(
+                rgba(0,0,0,.15),
+                rgba(0,0,0,.45)
+            );
+        }
+
+        .hero-caption{
+            position:absolute;
+            left:40px;
+            bottom:35px;
+            color:white;
+        }
+
+        .hero-caption h3{
+            font-size:30px;
+            font-weight:800;
+        }
+
+        .hero-caption p{
+            opacity:.9;
+        }
+
+        .slider-dot{
+            width:10px;
+            height:10px;
+            border-radius:50%;
+            background:white;
+            opacity:.4;
+            cursor:pointer;
+        }
+
+        .slider-dot.active{
+            opacity:1;
+        }
+
+        @media(max-width:768px){
+
+        .hero-slider{
+
+        height:250px;
+
+        border-radius:18px;
+
+        }
+
+        .hero-caption{
+
+        left:20px;
+
+        bottom:20px;
+
+        }
+
+        .hero-caption h3{
+
+        font-size:20px;
+
+        }
+
+        }
+    /* =========================
+   CARD IMAGE SLIDER
+========================= */
+
+.service-slider{
+    position:relative;
+    overflow:hidden;
+    border-radius:18px;
+    margin-bottom:18px;
+}
+
+.service-slider img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    display:none;
+}
+
+.service-slider img.active{
+    display:block;
+}
+
+.slider-btn{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:38px;
+    height:38px;
+    border:none;
+    border-radius:50%;
+    background:rgba(255,255,255,.9);
+    cursor:pointer;
+    transition:.3s;
+    font-size:15px;
+}
+
+.slider-btn:hover{
+    background:white;
+    transform:translateY(-50%) scale(1.08);
+}
+
+.slider-prev{
+    left:12px;
+}
+
+.slider-next{
+    right:12px;
+}
+
+.slider-indicator{
+    position:absolute;
+    bottom:12px;
+    left:50%;
+    transform:translateX(-50%);
+    background:rgba(0,0,0,.55);
+    color:white;
+    padding:4px 12px;
+    border-radius:20px;
+    font-size:12px;
+}
+
+@media(max-width:768px){
+
+.service-slider img{
+
+height:190px;
+
+}
+
+}
+/* ===========================
+   LIGHTBOX
+=========================== */
+
+.lightbox{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.95);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:99999;
+}
+
+.lightbox.show{
+    display:flex;
+}
+
+#lightbox-image{
+    max-width:92%;
+    max-height:90%;
+    border-radius:14px;
+}
+
+.lightbox-close{
+    position:absolute;
+    top:30px;
+    right:40px;
+    color:white;
+    font-size:48px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.lightbox-btn{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    width:52px;
+    height:52px;
+    border:none;
+    border-radius:50%;
+    background:rgba(255,255,255,.9);
+    cursor:pointer;
+    font-size:22px;
+}
+
+.prev-btn{
+    left:40px;
+}
+
+.next-btn{
+    right:40px;
+}
+
+.lightbox-btn:hover{
+    transform:translateY(-50%) scale(1.08);
+}
+
+@media(max-width:768px){
+
+.lightbox-btn{
+
+width:44px;
+
+height:44px;
+
+}
+
+.lightbox-close{
+
+top:18px;
+
+right:20px;
+
+font-size:38px;
+
+}
+
+}
     </style>
 </head>
 <body class="antialiased min-h-screen flex flex-col justify-between">
@@ -196,11 +439,12 @@
         </div>
 
         <!-- Mobile Menu Dropdown -->
-        <div id="mobile-menu" class="hidden md:hidden mt-3 p-5 rounded-2xl glass-card shadow-xl border border-papandayan-primary/20 space-y-4">
+        <div id="mobile-menu"
+            class="hidden md:hidden mt-3 p-5 rounded-2xl glass-card shadow-xl border border-papandayan-primary/20 space-y-4 transition-all duration-300">
             <a href="#beranda" class="block font-medium text-papandayan-text hover:text-papandayan-primary py-1">Beranda</a>
             <a href="#homestay" class="block font-medium text-papandayan-text hover:text-papandayan-primary py-1">Homestay</a>
             <a href="#tour-guide" class="block font-medium text-papandayan-text hover:text-papandayan-primary py-1">Tour Guide</a>
-            <a href="#kalender" class="block font-medium text-papandayan-text hover:text-papandayan-primary py-1">Kalender Ketersediaan</a>
+            <a href="#kalender" class="block font-medium text-papandayan-text hover:text-papandayan-primary py-1">Cek Kalender</a>
             <a href="#kontak" class="block font-medium text-papandayan-text hover:text-papandayan-primary py-1">Kontak</a>
             <div class="pt-3 border-t border-gray-200 flex flex-col gap-2">
                 <a href="#booking" class="btn-primary text-center w-full block py-3">
@@ -258,7 +502,7 @@
                         </div>
                         <div class="text-center lg:text-left">
                             <span class="block font-bold text-xl text-papandayan-text">24 Jam</span>
-                            <span class="text-xs text-papandayan-textLight">Operasional</span>
+                            <span class="text-xs text-papandayan-textLight">Air Panas & WiFi</span>
                         </div>
                         <div class="text-center lg:text-left">
                             <span class="block font-bold text-xl text-papandayan-text">Real-Time</span>
@@ -266,54 +510,60 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Hero Right Card Highlight -->
                 <div class="lg:col-span-5">
-                    <div class="relative">
-                        <div class="card-nature p-6 sm:p-8 relative overflow-hidden bg-gradient-to-br from-white to-[#F0F7EC]">
-                            <div class="absolute -right-10 -bottom-10 text-papandayan-primary/10 text-9xl pointer-events-none">
-                                <i class="fa-solid fa-mountain-sun"></i>
-                            </div>
 
-                            <div class="flex items-center justify-between mb-6">
-                                <span class="text-xs font-bold uppercase tracking-wider text-papandayan-primary bg-papandayan-primary/10 px-3 py-1.5 rounded-lg">Pilihan Populer</span>
-                            </div>
+                <div class="hero-slider">
 
-                            <h3 class="text-xl font-bold text-papandayan-text mb-2">Papandayan Tour & Homestay</h3>
-                            <p class="text-xs text-papandayan-textLight mb-6">Berlokasi di sekitar kawasan Gunung Papandayan, PapandayanTour menghadirkan suasana pegunungan yang sejuk, tenang, dan nyaman untuk beristirahat setelah menjelajahi destinasi wisata Garut.</p>
+                <div class="hero-slide active">
 
-                            <div class="space-y-3 mb-6 text-sm">
-                                <div class="flex items-center gap-3 text-papandayan-text">
-                                    <div class="w-8 h-8 rounded-full bg-papandayan-primary/15 flex items-center justify-center text-papandayan-dark">
-                                        <i class="fa-solid fa-bed text-xs"></i>
-                                    </div>
-                                    <span>2 Pilihan Tipe Homestay (Kamar / Full House)</span>
-                                </div>
-                                <div class="flex items-center gap-3 text-papandayan-text">
-                                    <div class="w-8 h-8 rounded-full bg-papandayan-primary/15 flex items-center justify-center text-papandayan-dark">
-                                        <i class="fa-solid fa-fire text-xs"></i>
-                                    </div>
-                                    <span>Fasilitas Lengkap Dapur & Toilet</span>
-                                </div>
-                                <div class="flex items-center gap-3 text-papandayan-text">
-                                    <div class="w-8 h-8 rounded-full bg-papandayan-primary/15 flex items-center justify-center text-papandayan-dark">
-                                        <i class="fa-solid fa-route text-xs"></i>
-                                    </div>
-                                    <span>Paket Tour Guide Sunrise Trip Hutan Mati</span>
-                                </div>
-                            </div>
+                <img src="papandayantour.png">
 
-                            <div class="p-4 rounded-xl bg-white/80 border border-papandayan-primary/20 flex items-center justify-between">
-                                <div>
-                                    <span class="block text-xs text-papandayan-textLight">Mulai dari</span>
-                                    <span class="text-lg font-bold text-papandayan-dark">Rp 200.000 <span class="text-xs font-normal text-papandayan-textLight">/ malam</span></span>
-                                </div>
-                                <a href="#booking" class="px-4 py-2 rounded-lg bg-papandayan-primary text-white text-xs font-semibold hover:bg-papandayan-dark transition-colors">
-                                    Pesan Sekarang
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="hero-overlay"></div>
+
+                <div class="hero-caption">
+
+                <h3>Sunrise Papandayan</h3>
+
+                <p>Nikmati keindahan matahari terbit.</p>
+
+                </div>
+
+                </div>
+
+                <div class="hero-slide">
+
+                <img src="papandayantour.png">
+
+                <div class="hero-overlay"></div>
+
+                <div class="hero-caption">
+
+                <h3>Hutan Mati</h3>
+
+                <p>Spot favorit wisatawan.</p>
+
+                </div>
+
+                </div>
+
+                <div class="hero-slide">
+
+                <img src="papandayantour.png">
+
+                <div class="hero-overlay"></div>
+
+                <div class="hero-caption">
+
+                <h3>Edelweiss</h3>
+
+                <p>Hamparan bunga abadi.</p>
+
+                </div>
+
+                </div>
+
+                </div>
+
                 </div>
             </div>
         </div>
@@ -331,6 +581,37 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Card 1: Homestay Kamar -->
                 <div class="card-nature p-6 flex flex-col justify-between relative overflow-hidden group">
+                <div class="mb-5 overflow-hidden rounded-2xl">
+                    <div class="service-slider">
+
+                    <img src="papandayantour.png" class="active">
+
+                    <img src="papandayantour.png">
+
+                    <img src="papandayantour.png">
+
+                    <img src="papandayantour.png">
+
+                    <button class="slider-btn slider-prev">
+
+                    ❮
+
+                    </button>
+
+                    <button class="slider-btn slider-next">
+
+                    ❯
+
+                    </button>
+
+                    <div class="slider-indicator">
+
+                    1 / 4
+
+                    </div>
+
+                    </div>
+                </div>
                     <div class="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-papandayan-primary to-papandayan-light"></div>
                     <div>
                         <div class="w-12 h-12 rounded-2xl bg-papandayan-primary/15 text-papandayan-dark flex items-center justify-center text-xl mb-4 group-hover:bg-papandayan-primary group-hover:text-white transition-colors">
@@ -346,7 +627,7 @@
 
                         <ul class="space-y-2.5 text-sm mb-6 text-papandayan-text border-t border-gray-100 pt-4">
                             <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Kasur Empuk & Nyaman</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Max. 2 Orang per Kamar </li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> 2 Orang per Kamar </li>
                             <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Tersedia WiFi</li>
                             <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Kamar Mandi Bersama</li>
                             <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Teh & Kopi Gratis</li>
@@ -360,6 +641,37 @@
 
                 <!-- Card 2: Full House -->
                 <div class="card-nature p-6 flex flex-col justify-between relative overflow-hidden group border-papandayan-primary">
+                <div class="mb-5 overflow-hidden rounded-2xl">
+                    <div class="service-slider">
+
+                        <img src="images/full1.jpg" class="active">
+
+                        <img src="images/full2.jpg">
+
+                        <img src="images/full3.jpg">
+
+                        <img src="images/full4.jpg">
+
+                        <button class="slider-btn slider-prev">
+
+                        ❮
+
+                        </button>
+
+                        <button class="slider-btn slider-next">
+
+                        ❯
+
+                        </button>
+
+                        <div class="slider-indicator">
+
+                        1 / 4
+
+                        </div>
+
+                        </div>
+                </div>
                     <div class="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-papandayan-dark to-papandayan-primary"></div>
                     <div class="absolute top-3 right-3">
                         <span class="text-[10px] uppercase font-bold tracking-wider px-2 py-1 bg-papandayan-primary text-white rounded">Privat & Populer</span>
@@ -392,6 +704,37 @@
 
                 <!-- Card 3: Tour Guide -->
                 <div id="tour-guide" class="card-nature p-6 flex flex-col justify-between relative overflow-hidden group">
+                <div class="mb-5 overflow-hidden rounded-2xl">
+                    <div class="service-slider">
+
+                        <img src="images/tour1.jpg" class="active">
+
+                        <img src="images/tour2.jpg">
+
+                        <img src="images/tour3.jpg">
+
+                        <img src="images/tour4.jpg">
+
+                        <button class="slider-btn slider-prev">
+
+                        ❮
+
+                        </button>
+
+                        <button class="slider-btn slider-next">
+
+                        ❯
+
+                        </button>
+
+                        <div class="slider-indicator">
+
+                        1 / 4
+
+                        </div>
+
+                        </div>
+                </div>
                     <div class="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-papandayan-light to-papandayan-primary"></div>
                     <div>
                         <div class="w-12 h-12 rounded-2xl bg-papandayan-primary/15 text-papandayan-dark flex items-center justify-center text-xl mb-4 group-hover:bg-papandayan-primary group-hover:text-white transition-colors">
@@ -408,8 +751,8 @@
                         <ul class="space-y-2.5 text-sm mb-6 text-papandayan-text border-t border-gray-100 pt-4">
                             <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Guide Lokal Berpengalaman</li>
                             <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Navigasi Jalur Aman & Ramah</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Sunrise Trip Tebing Son</li>
-                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Spot Foto Hutan Mati</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Sunrise Trip Tebing Soni</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Spot Foto Hutan Mati Eksotis</li>
                             <li class="flex items-center gap-2"><i class="fa-solid fa-check text-papandayan-primary text-xs"></i> Bantuan Dokumentasi Trip</li>
                         </ul>
                     </div>
@@ -560,7 +903,7 @@
                     <!-- Pilih Layanan -->
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-papandayan-text mb-2">
-                            Pilih Layanan<span class="text-red-500">*</span>
+                            Pilih Layanan / Penginapan <span class="text-red-500">*</span>
                         </label>
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                             <label class="service-radio-card cursor-pointer p-3.5 rounded-xl border border-gray-200 flex items-center gap-3 transition-all">
@@ -662,31 +1005,7 @@
                     <p class="text-papandayan-textLight text-sm leading-relaxed">
                         Lokasi homestay kami berjarak sangat dekat dengan Basecamp Utama Gunung Papandayan Cisurupan Garut. Udara sejuk, parkiran aman, dan pemandu lokal siap menemani perjalanan wisata Anda.
                     </p>
-
-                    <div class="space-y-4 text-sm">
-                        <div class="flex items-start gap-4">
-                            <div class="w-10 h-10 rounded-xl bg-papandayan-primary/15 text-papandayan-dark flex items-center justify-center shrink-0">
-                                <i class="fa-solid fa-location-dot"></i>
-                            </div>
-                            <div>
-                                <span class="font-bold text-papandayan-text block">Alamat Homestay</span>
-                                <span class="text-papandayan-textLight">Kp cimayid, Kec. Cisurupan, Kabupaten Garut, Jawa Barat 44163</span>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-4">
-                            <div class="w-10 h-10 rounded-xl bg-papandayan-primary/15 text-papandayan-dark flex items-center justify-center shrink-0">
-                                <i class="fa-brands fa-whatsapp"></i>
-                            </div>
-                            <div>
-                                <span class="font-bold text-papandayan-text block">WhatsApp Official</span>
-                                <span class="text-papandayan-textLight">+62 877-3278-8405 (Respon Cepat)</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-nature p-6 bg-white flex flex-col justify-between h-100 relative overflow-hidden" >
+                    <div class="card-nature p-6 bg-white flex flex-col justify-between h-100 relative overflow-hidden" >
                     <div class="absolute inset-0 bg-gradient-to-br from-papandayan-primary/10 to-transparent pointer-events-none"></div>
                     <div class="z-10" >
                     <h4 class="font-bold text-lg text-papandayan-text mb-3">
@@ -714,7 +1033,38 @@
                         Buka di Google Maps
                     </a>
                 </div>
+                
             </div>
+            <div class="space-y-4 text-sm">
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-papandayan-primary/15 text-papandayan-dark flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div>
+                                <span class="font-bold text-papandayan-text block">Alamat Homestay</span>
+                                <span class="text-papandayan-textLight">Kp cimayid, Kec. Cisurupan, Kabupaten Garut, Jawa Barat 44163</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-papandayan-primary/15 text-papandayan-dark flex items-center justify-center shrink-0">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </div>
+                            <div>
+                                <span class="font-bold text-papandayan-text block">WhatsApp Official</span>
+                                <span class="text-papandayan-textLight">+62 877-3278-8405 (Respon Cepat)</span>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-10 h-10 rounded-xl bg-papandayan-primary/15 text-papandayan-dark flex items-center justify-center shrink-0">
+                                <i class="fa-brands fa-tiktok"></i>
+                            </div>
+                            <div>
+                                <span class="font-bold text-papandayan-text block">Tiktok Official</span>
+                                <span class="text-papandayan-textLight">@papandayantour</span>
+                            </div>
+                        </div>
+                    </div>
         </div>
     </section>
 
@@ -727,7 +1077,7 @@
                  <span>Designed & Developed by <a href="https://www.instagram.com/tedifirdaus7/"><span class="font-semibold text-white">@Tedi Firdaus</span></a>
             </div>
             <div>
-                Homestay & Tour Guide Resmi Gunung Papandayan Garut
+                Homestay & Tour Guide Resmi Papandayan Tour
             </div>
         </div>
     </footer>
@@ -1411,15 +1761,226 @@
       });
 
       // Mobile Menu Toggle
-      document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
-        document.getElementById('mobile-menu').classList.toggle('hidden');
-      });
+      const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+const mobileMenu = document.getElementById("mobile-menu");
+
+mobileMenuBtn.addEventListener("click", function(e) {
+    e.stopPropagation(); // supaya klik tombol tidak langsung ditutup
+    mobileMenu.classList.toggle("hidden");
+});
+
+// Klik di luar menu -> tutup menu
+document.addEventListener("click", function(e) {
+    if (
+        !mobileMenu.contains(e.target) &&
+        !mobileMenuBtn.contains(e.target)
+    ) {
+        mobileMenu.classList.add("hidden");
+    }
+});
+
+// Klik salah satu menu -> tutup menu
+mobileMenu.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", () => {
+        mobileMenu.classList.add("hidden");
+    });
+});
 
       // Window load trigger
       window.onload = function() {
         initPickers();
         authenticateUser();
+        //========================
+        // HERO SLIDER
+        //========================
+
+        const slides=document.querySelectorAll(".hero-slide");
+
+        let heroIndex=0;
+
+        setInterval(()=>{
+
+        slides[heroIndex].classList.remove("active");
+
+        heroIndex++;
+
+        if(heroIndex>=slides.length){
+
+        heroIndex=0;
+
+        }
+
+        slides[heroIndex].classList.add("active");
+
+        },4500);
       };
+      document.querySelectorAll(".service-slider").forEach(slider=>{
+
+        const imgs=slider.querySelectorAll("img");
+
+        const prev=slider.querySelector(".slider-prev");
+
+        const next=slider.querySelector(".slider-next");
+
+        const indicator=slider.querySelector(".slider-indicator");
+
+        let index=0;
+
+        function show(i){
+
+        imgs.forEach(img=>img.classList.remove("active"));
+
+        imgs[i].classList.add("active");
+
+        indicator.innerHTML=(i+1)+" / "+imgs.length;
+
+        }
+
+        next.onclick=()=>{
+
+        index++;
+
+        if(index>=imgs.length) index=0;
+
+        show(index);
+
+        }
+
+        prev.onclick=()=>{
+
+        index--;
+
+        if(index<0) index=imgs.length-1;
+
+        show(index);
+
+        }
+
+        setInterval(()=>{
+
+        index++;
+
+        if(index>=imgs.length) index=0;
+
+        show(index);
+
+        },4500);
+
+        });
+
+        //============================
+// IMAGE LIGHTBOX
+//============================
+
+const lightbox=document.getElementById("lightbox");
+
+const lightboxImage=document.getElementById("lightbox-image");
+
+const closeBtn=document.querySelector(".lightbox-close");
+
+const prevBtn=document.querySelector(".prev-btn");
+
+const nextBtn=document.querySelector(".next-btn");
+
+let currentImages=[];
+
+let currentIndex=0;
+
+document.querySelectorAll(".service-slider").forEach(slider=>{
+
+const imgs=[...slider.querySelectorAll("img")];
+
+imgs.forEach((img,index)=>{
+
+img.style.cursor="zoom-in";
+
+img.onclick=()=>{
+
+currentImages=imgs;
+
+currentIndex=index;
+
+lightbox.classList.add("show");
+
+lightboxImage.src=img.src;
+
+};
+
+});
+
+});
+
+function updateImage(){
+
+lightboxImage.src=currentImages[currentIndex].src;
+
+}
+
+prevBtn.onclick=()=>{
+
+currentIndex--;
+
+if(currentIndex<0){
+
+currentIndex=currentImages.length-1;
+
+}
+
+updateImage();
+
+}
+
+nextBtn.onclick=()=>{
+
+currentIndex++;
+
+if(currentIndex>=currentImages.length){
+
+currentIndex=0;
+
+}
+
+updateImage();
+
+}
+
+closeBtn.onclick=()=>{
+
+lightbox.classList.remove("show");
+
+}
+
+lightbox.onclick=(e)=>{
+
+if(e.target===lightbox){
+
+lightbox.classList.remove("show");
+
+}
+
+}
     </script>
+
+<!-- ===========================
+     IMAGE LIGHTBOX
+=========================== -->
+
+<div id="lightbox" class="lightbox">
+
+    <span class="lightbox-close">&times;</span>
+
+    <img id="lightbox-image">
+
+    <button class="lightbox-btn prev-btn">
+        ❮
+    </button>
+
+    <button class="lightbox-btn next-btn">
+        ❯
+    </button>
+
+</div>
+
+
 </body>
 </html>
