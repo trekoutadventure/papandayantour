@@ -1110,6 +1110,11 @@ font-size:38px;
                     <i class="fa-solid fa-lock text-3xl text-papandayan-primary mb-3"></i>
                     <h4 class="font-bold text-lg text-papandayan-text mb-1">Masuk Portal Admin</h4>
                     <p class="text-xs text-papandayan-textLight mb-4">Fitur ini hanya dapat digunakan oleh admin.</p>
+                    <input
+                    id="admin-email-input"
+                    type="email"
+                    placeholder="Email Admin"
+                    class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm mb-3">
                     <input type="password" id="admin-pass-input" placeholder="Masukkan Kata Sandi" class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-sm mb-4 outline-none focus:border-papandayan-primary">
                     <button onclick="checkAdminPass()" class="btn-primary w-full py-2.5 text-sm">Masuk Dashboard</button>
                 </div>
@@ -1181,7 +1186,11 @@ font-size:38px;
     <!-- FIREBASE INITIALIZATION & APPLICATION JS -->
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-      import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+      import {
+        getAuth,
+        signInWithEmailAndPassword,
+        signOut
+      } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
       import {
         getFirestore,
         collection,
@@ -1597,49 +1606,73 @@ font-size:38px;
         modal.classList.toggle('flex');
       };
 
-      window.checkAdminPass = async function() {
-        const inputPass = document.getElementById('admin-pass-input').value.trim();
+      window.checkAdminPass = async function () {
 
-        if (!inputPass) {
-            showToast('Masukkan password admin.', 'warning');
-            return;
-        }
+            const email = document.getElementById("admin-email-input").value.trim();
 
-        try {
-            const adminRef = doc(db, 'admins', 'main');
-            const adminSnap = await getDoc(adminRef);
+            const password = document.getElementById("admin-pass-input").value.trim();
 
-            if (!adminSnap.exists()) {
-            showToast('Data admin tidak ditemukan.', 'error');
-            return;
+            if (!email || !password) {
+
+                showToast("Lengkapi email dan password.", "warning");
+
+                return;
+
             }
 
-            const adminData = adminSnap.data();
+            try {
 
-            if (inputPass === adminData.password) {
-            window.isAdminLoggedIn = true;
+                await signInWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
 
-            document.getElementById('admin-login-box').classList.add('hidden');
-            document.getElementById('admin-main-panel').classList.remove('hidden');
+                window.isAdminLoggedIn = true;
 
-            renderAdminBookingsList();
-            showToast('Berhasil login sebagai Admin', 'success');
-            } else {
-            showToast('Kata sandi admin salah!', 'error');
+                document
+                    .getElementById("admin-login-box")
+                    .classList.add("hidden");
+
+                document
+                    .getElementById("admin-main-panel")
+                    .classList.remove("hidden");
+
+                renderAdminBookingsList();
+
+                showToast("Login berhasil.", "success");
+
+            } catch (err) {
+
+                console.error(err);
+
+                showToast("Email atau password salah.", "error");
+
             }
 
-        } catch (err) {
-            console.error('Admin login error:', err);
-            showToast('Gagal memverifikasi admin.', 'error');
         }
-        };
 
-      window.logoutAdmin = function() {
-        window.isAdminLoggedIn = false;
-        document.getElementById('admin-login-box').classList.remove('hidden');
-        document.getElementById('admin-main-panel').classList.add('hidden');
-        document.getElementById('admin-pass-input').value = '';
-      };
+      window.logoutAdmin = async function(){
+
+            await signOut(auth);
+
+            window.isAdminLoggedIn = false;
+
+            document
+                .getElementById("admin-login-box")
+                .classList.remove("hidden");
+
+            document
+                .getElementById("admin-main-panel")
+                .classList.add("hidden");
+
+            document
+                .getElementById("admin-email-input").value = "";
+
+            document
+                .getElementById("admin-pass-input").value = "";
+
+        }
 
       window.renderAdminBookingsList = function() {
         const tbody = document.getElementById('admin-bookings-table-body');
